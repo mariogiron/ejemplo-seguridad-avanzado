@@ -1,59 +1,52 @@
-# Tablon
+# Angular Avanzado · Módulo 4 · Autenticación con Keycloak desde cero
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.26.
+Una aplicación pequeña, el **Tablón**, que empieza recién salida de `ng new` y a la que se le añade, paso a paso, el inicio de sesión con Keycloak (OpenID Connect, Authorization Code con PKCE) usando solo `keycloak-js`.
 
-## Development server
+## Arrancar
 
-To start a local development server, run:
+Tres terminales:
 
-```bash
-ng serve
+```
+node servidores/keycloak-local.mjs     # Keycloak de bolsillo: realm curso, usuarios ana y ramon, contraseña curso
+node servidores/api.mjs                # API del tablón en http://localhost:3000
+npm start                              # la aplicación en http://localhost:4200 (la API va por el proxy /api)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+`VIDA=20 node servidores/keycloak-local.mjs` da tokens de 20 segundos, para ver la caducidad sin esperar.
 
-## Code scaffolding
+El Keycloak de bolsillo es un simulador para clase de lo que keycloak-js usa de Keycloak. No es Keycloak ni es seguro. Con Docker, `docker compose up` arranca un Keycloak de verdad con el realm de `keycloak/curso-realm.json` (no arranques los dos a la vez: comparten el puerto 8080).
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+La aplicación tiene que estar en `localhost:4200`: es la dirección a la que el realm deja volver.
 
-```bash
-ng generate component component-name
-```
+## Usuarios
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+| Usuario | Contraseña | Roles              |
+| ------- | ---------- | ------------------ |
+| `ana`   | `curso`    | `usuario`          |
+| `ramon` | `curso`    | `usuario`, `admin` |
 
-```bash
-ng generate --help
-```
+## API
 
-## Building
+| Ruta                       | Pide                    |
+| -------------------------- | ----------------------- |
+| `GET /api/publico`         | Nada                    |
+| `GET /api/mensajes`        | Un token válido (o 401) |
+| `DELETE /api/mensajes/:id` | El rol `admin` (o 403)  |
 
-To build the project run:
+## Etiquetas
 
-```bash
-ng build
-```
+`git checkout <etiqueta>` deja el código en ese paso. `main` es el final.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+| Etiqueta              | Paso                                                         |
+| --------------------- | ------------------------------------------------------------ |
+| `paso-0-ng-new`       | Lo que genera `ng new`, sin tocar                            |
+| `paso-1-partida`      | Inicio, Mensajes, el proxy y los servidores: la API dice 401 |
+| `paso-2-keycloak`     | `keycloak-js`: la instancia e `init()` antes de arrancar     |
+| `paso-3-entrar-salir` | Entrar, Salir y el nombre que viene en el token              |
+| `paso-4-ver-token`    | El token por dentro, en la página de inicio                  |
+| `paso-5-token-a-mano` | El token a mano en la cabecera `Authorization`               |
+| `paso-6-interceptor`  | Un interceptor pone el token en cada petición a `/api/`      |
+| `paso-7-caducidad`    | `updateToken(10)` antes de cada petición                     |
+| `paso-8-guard`        | La ruta Mensajes pide sesión                                 |
+| `paso-9-borrar`       | Borrar: la API exige el rol `admin`                          |
+| `paso-10-ocultar`     | El botón Borrar solo para quien tiene el rol `admin`         |

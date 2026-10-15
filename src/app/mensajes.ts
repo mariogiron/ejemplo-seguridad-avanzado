@@ -1,5 +1,6 @@
 import { HttpErrorResponse, httpResource } from '@angular/common/http';
 import { Component, computed } from '@angular/core';
+import { keycloak } from './keycloak';
 
 interface Mensaje {
   id: number;
@@ -34,8 +35,11 @@ interface Mensaje {
   `,
 })
 export class Mensajes {
-  /** Una ruta protegida de la API: sin token, contesta 401. */
-  protected readonly mensajes = httpResource<Mensaje[]>(() => '/api/mensajes');
+  /** Una ruta protegida de la API: el token va, a mano, en la cabecera Authorization. */
+  protected readonly mensajes = httpResource<Mensaje[]>(() => ({
+    url: '/api/mensajes',
+    headers: { Authorization: `Bearer ${keycloak.token}` },
+  }));
 
   /** El código de estado y el motivo que da la API, si algo ha ido mal. */
   protected readonly error = computed(() => {

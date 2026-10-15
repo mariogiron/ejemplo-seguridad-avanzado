@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse, httpResource } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
+import { keycloak } from './keycloak';
 
 interface Mensaje {
   id: number;
@@ -25,7 +26,9 @@ interface Mensaje {
           <li>
             <strong>{{ mensaje.autor }}</strong
             >: {{ mensaje.texto }}
-            <button (click)="borrar(mensaje)">Borrar</button>
+            @if (puedeBorrar) {
+              <button (click)="borrar(mensaje)">Borrar</button>
+            }
           </li>
         }
       </ul>
@@ -54,6 +57,9 @@ export class Mensajes {
     const error = this.mensajes.error();
     return error instanceof HttpErrorResponse ? `${error.status}: ${error.error?.error}` : '';
   });
+
+  /** Solo para no enseñar un botón que no va a funcionar. Quien protege de verdad es la API. */
+  protected readonly puedeBorrar = keycloak.hasRealmRole('admin');
 
   /** Lo que ha pasado al borrar. */
   protected readonly aviso = signal('');

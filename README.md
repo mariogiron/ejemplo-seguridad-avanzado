@@ -18,6 +18,8 @@ El Keycloak de bolsillo es un simulador para clase de lo que keycloak-js usa de 
 
 La aplicación tiene que estar en `localhost:4200`: es la dirección a la que el realm deja volver.
 
+Para comprobar el proxy, abre http://localhost:4200/api/publico: tiene que salir `{"mensajes":5}`. Si sale el HTML de la aplicación (y en Mensajes, «La API contesta 200: undefined»), ng serve no está usando `proxy.conf.json`: reinícialo y comprueba que `"options": { "proxyConfig": "proxy.conf.json" }` está en el bloque `serve` de `angular.json`.
+
 ## Usuarios
 
 | Usuario | Contraseña | Roles              |

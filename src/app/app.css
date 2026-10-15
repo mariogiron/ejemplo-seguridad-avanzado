@@ -1,0 +1,19 @@
+header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: #1f2937;
+  color: #fff;
+}
+nav {
+  display: flex;
+  gap: 16px;
+  flex: 1;
+}
+nav a {
+  color: #93c5fd;
+}
+main {
+  padding: 8px 24px;
+}

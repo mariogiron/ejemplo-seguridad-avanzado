@@ -1,0 +1,56 @@
+{
+  "realm": "curso",
+  "enabled": true,
+  "displayName": "Tablón · Angular Avanzado",
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "accessTokenLifespan": 60,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "roles": {
+    "realm": [
+      { "name": "usuario", "description": "Puede leer el tablón" },
+      { "name": "admin", "description": "Puede borrar mensajes del tablón" }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "tablon",
+      "name": "Tablón · aplicación Angular",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "rootUrl": "http://localhost:4200",
+      "redirectUris": ["http://localhost:4200/*"],
+      "webOrigins": ["http://localhost:4200"],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "+"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "ana",
+      "enabled": true,
+      "firstName": "Ana",
+      "lastName": "González",
+      "email": "ana@example.com",
+      "emailVerified": true,
+      "credentials": [{ "type": "password", "value": "curso", "temporary": false }],
+      "realmRoles": ["usuario"]
+    },
+    {
+      "username": "ramon",
+      "enabled": true,
+      "firstName": "Ramón",
+      "lastName": "Ruiz",
+      "email": "ramon@example.com",
+      "emailVerified": true,
+      "credentials": [{ "type": "password", "value": "curso", "temporary": false }],
+      "realmRoles": ["usuario", "admin"]
+    }
+  ]
+}

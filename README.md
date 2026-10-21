@@ -37,7 +37,7 @@ Para comprobar el proxy, abre http://localhost:4200/api/publico: tiene que salir
 
 ## Etiquetas
 
-`git checkout <etiqueta>` deja el código en ese paso. `main` es el final.
+`git checkout <etiqueta>` deja el código en ese paso; `git checkout main` vuelve al final.
 
 | Etiqueta              | Paso                                                         |
 | --------------------- | ------------------------------------------------------------ |
